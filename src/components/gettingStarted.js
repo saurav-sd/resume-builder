@@ -4,7 +4,7 @@ import {skinCodes} from '../constants/typeCodes';
 // import { bindActionCreators } from 'redux';
 
 // import { withRouter } from "react-router-dom";
-import { useNavigate, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 // import { setSkin } from '../../redux/actions/documentActions';
 import { connect } from 'react-redux';
 import { setSkin, updateSkin } from '../redux/actions/documentActions';
@@ -35,7 +35,7 @@ function GettingStarted(props) {
                     {
                         skinCodes.map((value,index) => {
                             return( <div key={index} className="template-card rounded-border">
-                                  <i className={(value == 'demo-value'? 'selected fa fa-check' :'hide') } ></i>
+                                  <i className={(value === 'demo-value'? 'selected fa fa-check' :'hide') } ></i>
                                 <img  className='' src={'/images/' + value + '.svg'} alt=''/>
                                 <button type="button" onClick={()=>onChange(value)}  className='btn-select-theme'>USE TEMPLATE</button>
                             </div>);

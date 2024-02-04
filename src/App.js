@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Header from "./components/header";
 import Footer from "./components/footer";
-import { Route, Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Education from "./components/education";
 import Contacts from "./components/contact";
 import LandingPage from "./components/landingPage";

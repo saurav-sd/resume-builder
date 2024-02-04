@@ -8,12 +8,11 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import thunk  from 'redux-thunk';
-import { reduxFirestore, getFirestore } from 'redux-firestore';
+import { getFirestore } from 'redux-firestore';
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
-import { createStore, applyMiddleware } from 'redux'
+import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './redux/reducers/rootReducer';
-import { composeWithDevTools } from'redux-devtools-extension';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCC5hWWhjC-P0b6eBLatBd1sSpeF-b7sqg",
@@ -27,26 +26,20 @@ const firebaseConfig = {
   
 firebase.initializeApp(firebaseConfig);
 firebase.firestore()
-
-
-// const middleware = [
-//     thunk.withExtraArgument({ getFirebase, getFirestore }), // Use withExtraArgument here
-//     // other middleware if any
-// ];
-
-// const store = createStore(
-//     rootReducer,
-//     composeWithDevTools(
-//       applyMiddleware(...middleware),
-//       reduxFirestore(firebase)
-//       // other store enhancers if any
-//     )
-// );
   
-const reduxStore = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })), reduxFirestore(firebase)));  //binding for redux to get firestore
-
+const middleware = (getDefaultMiddleware) => {
+  return [
+    thunk.withExtraArgument({ getFirebase, getFirestore }), // Add any extra arguments here
+    // Add any other middleware you need
+    ...getDefaultMiddleware()
+  ];
+};
+const reduxStore = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => middleware(getDefaultMiddleware), // Use getDefaultMiddleware to add default middleware
+  devTools: process.env.NODE_ENV !== 'production', // Enable Redux DevTools Extension in development mode
+});
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 root.render(
     <Provider store={reduxStore}>
     <BrowserRouter>
@@ -60,4 +53,3 @@ root.render(
     </BrowserRouter>
   </Provider>
 );
-
