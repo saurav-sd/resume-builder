@@ -8,7 +8,7 @@ function PrivateRoute({ auth, component: Component, ...remainingprops }) {
     return (
         <Route {...remainingprops} render={(props)=>(
             isLoaded(auth) && !isEmpty(auth) ?
-            <Component {...props}/> : <Redirect to='/'/>
+            <Component {...props}/> : <Redirect to='/login'/>
         )} />
     )
 }
